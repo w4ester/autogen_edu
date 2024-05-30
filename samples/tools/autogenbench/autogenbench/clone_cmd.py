@@ -32,7 +32,7 @@ def get_scenarios(base_url):
     """
     Return a list of scenarios.
     """
-    response = requests.get(_expand_url("MANIFEST.json", base_url), stream=False)
+    response = requests.get(_expand_url("MANIFEST.json", base_url), stream=False, timeout=60)
     response.raise_for_status()
     manifest = json.loads(response.text)
     return manifest["scenarios"]
@@ -54,7 +54,7 @@ def clone_scenario(scenario, base_url):
     # Download the manifest
     print("Fetching manifest...")
     manifest = None
-    response = requests.get(_expand_url("MANIFEST.json", scenario_url), stream=False)
+    response = requests.get(_expand_url("MANIFEST.json", scenario_url), stream=False, timeout=60)
     response.raise_for_status()
     manifest = json.loads(response.text)
 
@@ -77,7 +77,7 @@ def clone_scenario(scenario, base_url):
         os.makedirs(dir_name, exist_ok=True)
 
         # Send a HTTP request to the URL
-        response = requests.get(raw_url, stream=True)
+        response = requests.get(raw_url, stream=True, timeout=60)
         response.raise_for_status()
 
         # If the HTTP request returns a status code 200, proceed
