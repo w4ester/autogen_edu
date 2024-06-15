@@ -28,6 +28,7 @@ dependencies = [
     "python-dotenv",
     "websockets",
     "numpy < 2.0.0",
+    "security==1.2.1",
 ]
 optional-dependencies = {web = ["fastapi", "uvicorn"]}
 

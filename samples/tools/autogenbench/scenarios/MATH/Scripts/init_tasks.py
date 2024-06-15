@@ -3,14 +3,11 @@
 # (default: ../scenarios/human_eval_two_agents_gpt4.jsonl and ./scenarios/human_eval_two_agents_gpt35.jsonl)
 #
 
-import io
 import json
 import os
 import re
-import sys
 import tarfile
-
-import requests
+from security import safe_requests
 
 URL = "https://people.eecs.berkeley.edu/~hendrycks/MATH.tar"
 
@@ -57,7 +54,7 @@ def download_math():
 
     if not os.path.isfile(tar_file):
         # Send a HTTP request to the URL
-        response = requests.get(URL, stream=True)
+        response = safe_requests.get(URL, stream=True)
         response.raise_for_status()
 
         # If the HTTP request returns a status code 200, proceed

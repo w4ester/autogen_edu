@@ -1,5 +1,4 @@
 import io
-import json
 import mimetypes
 import os
 import re
@@ -10,11 +9,11 @@ from urllib.parse import urljoin, urlparse
 import markdownify
 import requests
 from bs4 import BeautifulSoup
+from security import safe_requests
 
 # Optional PDF support
 IS_PDF_CAPABLE = False
 try:
-    import pdfminer
     import pdfminer.high_level
 
     IS_PDF_CAPABLE = True
@@ -189,7 +188,7 @@ class SimpleTextBrowser:
             request_kwargs["stream"] = True
 
             # Send a HTTP request to the URL
-            response = requests.get(url, **request_kwargs)
+            response = safe_requests.get(url, **request_kwargs)
             response.raise_for_status()
 
             # If the HTTP request returns a status code 200, proceed
