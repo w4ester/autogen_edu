@@ -3,7 +3,6 @@ import errno
 import json
 import os
 import pathlib
-import random
 import shutil
 import subprocess
 import sys
@@ -15,6 +14,7 @@ from autogen import config_list_from_json
 from autogen.oai.openai_utils import filter_config
 
 from .version import __version__
+import secrets
 
 # Figure out where everything is
 SCRIPT_PATH = os.path.realpath(__file__)
@@ -37,7 +37,7 @@ DEFAULT_ENV_FILE = "ENV.json"
 
 
 # Get a random number generator for subsampling
-subsample_rng = random.Random(425)
+subsample_rng = secrets.SystemRandom().Random(425)
 
 
 def run_scenarios(
