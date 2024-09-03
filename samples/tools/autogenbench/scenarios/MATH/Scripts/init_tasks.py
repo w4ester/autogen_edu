@@ -57,7 +57,7 @@ def download_math():
 
     if not os.path.isfile(tar_file):
         # Send a HTTP request to the URL
-        response = requests.get(URL, stream=True)
+        response = requests.get(URL, stream=True, timeout=60)
         response.raise_for_status()
 
         # If the HTTP request returns a status code 200, proceed
