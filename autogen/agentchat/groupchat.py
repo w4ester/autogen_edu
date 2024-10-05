@@ -1,5 +1,4 @@
 import logging
-import random
 import re
 import sys
 from dataclasses import dataclass, field
@@ -12,6 +11,7 @@ from ..io.base import IOStream
 from ..runtime_logging import log_new_agent, logging_enabled
 from .agent import Agent
 from .conversable_agent import ConversableAgent
+import secrets
 
 logger = logging.getLogger(__name__)
 
@@ -323,7 +323,7 @@ class GroupChat:
         """Randomly select the next speaker."""
         if agents is None:
             agents = self.agents
-        return random.choice(agents)
+        return secrets.choice(agents)
 
     def _prepare_and_select_agents(
         self,
