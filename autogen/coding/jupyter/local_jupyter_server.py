@@ -9,6 +9,7 @@ import subprocess
 import sys
 from types import TracebackType
 from typing import Optional, Type, Union, cast
+from security import safe_command
 
 if sys.version_info >= (3, 11):
     from typing import Self
@@ -50,8 +51,7 @@ class LocalJupyterServer(JupyterConnectable):
 
         # Check Jupyter gateway server is installed
         try:
-            subprocess.run(
-                [sys.executable, "-m", "jupyter", "kernelgateway", "--version"],
+            safe_command.run(subprocess.run, [sys.executable, "-m", "jupyter", "kernelgateway", "--version"],
                 check=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
@@ -101,7 +101,7 @@ class LocalJupyterServer(JupyterConnectable):
         if port is not None:
             args.extend(["--KernelGatewayApp.port", str(port)])
             args.extend(["--KernelGatewayApp.port_retries", "0"])
-        self._subprocess = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        self._subprocess = safe_command.run(subprocess.Popen, args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         # Satisfy mypy, we know this is not None because we passed PIPE
         assert self._subprocess.stderr is not None
