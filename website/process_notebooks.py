@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Dict, Optional, Tuple, Union
 
 from termcolor import colored
+from security import safe_command
 
 try:
     import yaml
@@ -195,8 +196,7 @@ def process_notebook(src_notebook: Path, website_dir: Path, notebook_dir: Path, 
                 shutil.copy(src_notebook.parent / file, dest_dir / file)
 
         # Capture output
-        result = subprocess.run(
-            [quarto_bin, "render", intermediate_notebook], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+        result = safe_command.run(subprocess.run, [quarto_bin, "render", intermediate_notebook], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
         )
         if result.returncode != 0:
             return fmt_error(
@@ -216,8 +216,7 @@ def process_notebook(src_notebook: Path, website_dir: Path, notebook_dir: Path, 
         if dry_run:
             return colored(f"Would process {src_notebook.name}", "green")
 
-        result = subprocess.run(
-            [quarto_bin, "render", src_notebook], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+        result = safe_command.run(subprocess.run, [quarto_bin, "render", src_notebook], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
         )
         if result.returncode != 0:
             return fmt_error(
