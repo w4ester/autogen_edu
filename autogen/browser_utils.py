@@ -145,7 +145,7 @@ class SimpleTextBrowser:
         request_kwargs["stream"] = False
 
         # Make the request
-        response = requests.get("https://api.bing.microsoft.com/v7.0/search", **request_kwargs)
+        response = requests.get("https://api.bing.microsoft.com/v7.0/search", **request_kwargs, timeout=60)
         response.raise_for_status()
         results = response.json()
 
@@ -189,7 +189,7 @@ class SimpleTextBrowser:
             request_kwargs["stream"] = True
 
             # Send a HTTP request to the URL
-            response = requests.get(url, **request_kwargs)
+            response = requests.get(url, **request_kwargs, timeout=60)
             response.raise_for_status()
 
             # If the HTTP request returns a status code 200, proceed

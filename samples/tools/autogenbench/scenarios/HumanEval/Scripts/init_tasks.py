@@ -59,7 +59,7 @@ def download_human_eval():
     """Download the HumanEval dataset, un-gzips it, and returns a list of its parsed JSON objects."""
 
     # Send a HTTP request to the URL of the file
-    response = requests.get(URL)
+    response = requests.get(URL, timeout=60)
 
     # Ensure we raise an error if the download failed
     response.raise_for_status()
