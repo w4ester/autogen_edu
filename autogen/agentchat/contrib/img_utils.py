@@ -4,11 +4,10 @@ import os
 import re
 from io import BytesIO
 from typing import Dict, List, Tuple, Union
-
-import requests
 from PIL import Image
 
 from autogen.agentchat import utils
+from security import safe_requests
 
 
 def get_pil_image(image_file: Union[str, Image.Image]) -> Image.Image:
@@ -33,7 +32,7 @@ def get_pil_image(image_file: Union[str, Image.Image]) -> Image.Image:
 
     if image_file.startswith("http://") or image_file.startswith("https://"):
         # A URL file
-        response = requests.get(image_file)
+        response = safe_requests.get(image_file)
         content = BytesIO(response.content)
         image = Image.open(content)
     elif re.match(r"data:image/(?:png|jpeg);base64,", image_file):

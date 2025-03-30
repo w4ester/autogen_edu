@@ -10,6 +10,7 @@ from urllib.parse import urljoin, urlparse
 import markdownify
 import requests
 from bs4 import BeautifulSoup
+from security import safe_requests
 
 # Optional PDF support
 IS_PDF_CAPABLE = False
@@ -145,7 +146,7 @@ class SimpleTextBrowser:
         request_kwargs["stream"] = False
 
         # Make the request
-        response = requests.get("https://api.bing.microsoft.com/v7.0/search", **request_kwargs)
+        response = safe_requests.get("https://api.bing.microsoft.com/v7.0/search", **request_kwargs)
         response.raise_for_status()
         results = response.json()
 
@@ -189,7 +190,7 @@ class SimpleTextBrowser:
             request_kwargs["stream"] = True
 
             # Send a HTTP request to the URL
-            response = requests.get(url, **request_kwargs)
+            response = safe_requests.get(url, **request_kwargs)
             response.raise_for_status()
 
             # If the HTTP request returns a status code 200, proceed
