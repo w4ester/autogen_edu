@@ -5,7 +5,6 @@ import glob
 import json
 import logging
 import os
-import random
 import subprocess
 import tempfile
 import time
@@ -30,10 +29,11 @@ from evaluation_harness import evaluator_router
 from webarena_agents import ActionTakingCapability, EnvironmentAgent
 
 import autogen
+import secrets
 
 LOG_FOLDER = "log_files"
 Path(LOG_FOLDER).mkdir(parents=True, exist_ok=True)
-LOG_FILE_NAME = f"{LOG_FOLDER}/log_{time.strftime('%Y%m%d%H%M%S', time.localtime())}_{random.randint(0, 10000)}.log"
+LOG_FILE_NAME = f"{LOG_FOLDER}/log_{time.strftime('%Y%m%d%H%M%S', time.localtime())}_{secrets.SystemRandom().randint(0, 10000)}.log"
 
 logger = logging.getLogger("logger")
 logger.setLevel(logging.INFO)
