@@ -21,6 +21,7 @@ from ..code_utils import TIMEOUT_MSG, WIN32, _cmd
 from .base import CodeBlock, CodeExecutor, CodeExtractor, CommandLineCodeResult
 from .markdown_code_extractor import MarkdownCodeExtractor
 from .utils import _get_file_name_from_content, silence_pip
+from security import safe_command
 
 __all__ = ("LocalCommandLineCodeExecutor",)
 
@@ -176,8 +177,7 @@ $functions"""
             cmd.extend(required_packages)
 
             try:
-                result = subprocess.run(
-                    cmd, cwd=self._work_dir, capture_output=True, text=True, timeout=float(self._timeout)
+                result = safe_command.run(subprocess.run, cmd, cwd=self._work_dir, capture_output=True, text=True, timeout=float(self._timeout)
                 )
             except subprocess.TimeoutExpired as e:
                 raise ValueError("Pip install timed out") from e
@@ -246,8 +246,7 @@ $functions"""
             cmd = [program, str(written_file.absolute())]
 
             try:
-                result = subprocess.run(
-                    cmd, cwd=self._work_dir, capture_output=True, text=True, timeout=float(self._timeout)
+                result = safe_command.run(subprocess.run, cmd, cwd=self._work_dir, capture_output=True, text=True, timeout=float(self._timeout)
                 )
             except subprocess.TimeoutExpired:
                 logs_all += "\n" + TIMEOUT_MSG

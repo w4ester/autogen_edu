@@ -7,6 +7,7 @@ import os
 import shutil
 import subprocess
 import sys
+from security import safe_command
 
 
 def scoring(content: str, should_contain: list, should_not_contain: list):
@@ -58,8 +59,7 @@ def check():
         if eval_type == "python":
             # copy the test file to working directory
             shutil.copy(f"../custom_python/{file_path}", "./")
-            result = subprocess.run(
-                [sys.executable, file_path],
+            result = safe_command.run(subprocess.run, [sys.executable, file_path],
                 cwd=os.path.abspath("./"),
                 capture_output=True,
                 text=True,
