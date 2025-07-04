@@ -8,6 +8,7 @@ import chromadb
 import markdownify
 import requests
 from bs4 import BeautifulSoup
+from security import safe_requests
 
 if chromadb.__version__ < "0.4.15":
     from chromadb.api import API
@@ -284,7 +285,7 @@ def get_file_from_url(url: str, save_path: str = None):
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
     }
     try:
-        response = requests.get(url, stream=True, headers=custom_headers, timeout=30)
+        response = safe_requests.get(url, stream=True, headers=custom_headers, timeout=30)
         response.raise_for_status()
     except requests.exceptions.RequestException as e:
         logger.warning(f"Failed to download {url}, {e}")
